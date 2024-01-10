@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderBoard(container, board);
 });
 
-function createBoard(rows, cols, mines) {
+const createBoard = (rows, cols, mines) => {
   const board = new Array(rows)
     .fill(null)
     .map(() => new Array(cols).fill(false));
@@ -36,7 +36,7 @@ function createBoard(rows, cols, mines) {
   }
 
   return board;
-}
+};
 
 const generateCount = (row, col) => {
   const directions = [
@@ -62,7 +62,7 @@ const generateCount = (row, col) => {
   }
 };
 
-function renderBoard(container, board) {
+const renderBoard = (container, board) => {
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
       const cell = document.createElement("div");
@@ -76,9 +76,9 @@ function renderBoard(container, board) {
       container.appendChild(cell);
     }
   }
-}
+};
 
-function handleCellClick(event) {
+const handleCellClick = (event) => {
   if (!gameOver) {
     if (!gameStarted) {
       startGame();
@@ -95,7 +95,7 @@ function handleCellClick(event) {
       endGame();
     }
   }
-}
+};
 
 const endGame = () => {
   clearInterval(intervalId);
