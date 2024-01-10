@@ -4,6 +4,7 @@ const cols = 10;
 const mines = 10;
 const board = createBoard(rows, cols, mines);
 let gameStarted = false;
+let gameOver = false;
 let intervalId;
 let count = new Array(rows).fill(null).map(() => new Array(cols).fill(0));
 
@@ -78,18 +79,21 @@ function renderBoard(container, board) {
 }
 
 function handleCellClick(event) {
-  if (!gameStarted) {
-    startGame();
-    gameStarted = true;
-  }
-  const row = parseInt(event.target.dataset.row);
-  const col = parseInt(event.target.dataset.col);
+  if (!gameOver) {
+    if (!gameStarted) {
+      startGame();
+      gameStarted = true;
+    }
+    const row = parseInt(event.target.dataset.row);
+    const col = parseInt(event.target.dataset.col);
 
-  event.target.innerText = `${board[row][col] ? "💣" : count[row][col]}`;
-  event.target.style.backgroundColor = "#fff";
+    event.target.innerText = `${board[row][col] ? "💣" : count[row][col]}`;
+    event.target.style.backgroundColor = "#fff";
 
-  if (board[row][col]) {
-    endGame();
+    if (board[row][col]) {
+      gameOver = true;
+      endGame();
+    }
   }
 }
 

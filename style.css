@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel&display=swap");
+
+* {
+  font-family: "Cinzel", serif;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -8,8 +14,12 @@ body {
   flex-direction: column;
 }
 
-body h1 {
+.score {
   margin: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 600px;
 }
 
 .minesweeper-container {
@@ -27,7 +37,7 @@ body h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 25px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -46,4 +56,5 @@ body h1 {
   border: 2px solid black;
   cursor: pointer;
   border-radius: 100px;
+  font-weight: bold;
 }
