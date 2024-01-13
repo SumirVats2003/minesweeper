@@ -7,6 +7,11 @@ let gameStarted = false;
 let gameOver = false;
 let intervalId;
 let count = new Array(rows).fill(null).map(() => new Array(cols).fill(0));
+// let highScore = document.querySelector("#hiscore");
+// let score;
+
+// // set highscore initially
+// localStorage.setItem("highscore", highScore.innerText);
 
 const startGame = () => {
   intervalId = setInterval(() => {
@@ -19,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderBoard(container, board);
 });
 
-const createBoard = (rows, cols, mines) => {
+function createBoard(rows, cols, mines) {
   const board = new Array(rows)
     .fill(null)
     .map(() => new Array(cols).fill(false));
@@ -36,7 +41,7 @@ const createBoard = (rows, cols, mines) => {
   }
 
   return board;
-};
+}
 
 const generateCount = (row, col) => {
   const directions = [
@@ -91,6 +96,13 @@ const handleCellClick = (event) => {
     event.target.style.backgroundColor = "#fff";
 
     if (board[row][col]) {
+      score = parseInt(document.querySelector("#time").innerText);
+      // if (localStorage.highscore == "0") {
+      //   localStorage.highscore = score;
+      // } else if (parseInt(localStorage.highscore) > score) {
+      //   localStorage.highscore = score;
+      // }
+      // highScore.innerText = localStorage.highscore;
       gameOver = true;
       endGame();
     }
