@@ -7,11 +7,15 @@ let gameStarted = false;
 let gameOver = false;
 let intervalId;
 let count = new Array(rows).fill(null).map(() => new Array(cols).fill(0));
-// let highScore = document.querySelector("#hiscore");
-// let score;
+let highScore = document.querySelector("#hiscore");
+let score;
 
 // // set highscore initially
 // localStorage.setItem("highscore", highScore.innerText);
+if (!Object.hasOwn(localStorage, "highscore")) {
+  localStorage.setItem("highscore", 0);
+}
+highScore.innerText = localStorage.highscore;
 
 const startGame = () => {
   intervalId = setInterval(() => {
@@ -92,17 +96,28 @@ const handleCellClick = (event) => {
     const row = parseInt(event.target.dataset.row);
     const col = parseInt(event.target.dataset.col);
 
-    event.target.innerText = `${board[row][col] ? "💣" : count[row][col]}`;
+    let displayText;
+    if (board[row][col]) {
+      displayText = "💣";
+    } else {
+      if (count[row][col]) {
+        displayText = count[row][col];
+      } else {
+        displayText = "";
+      }
+    }
+
+    event.target.innerText = `${displayText}`;
     event.target.style.backgroundColor = "#fff";
 
     if (board[row][col]) {
       score = parseInt(document.querySelector("#time").innerText);
-      // if (localStorage.highscore == "0") {
-      //   localStorage.highscore = score;
-      // } else if (parseInt(localStorage.highscore) > score) {
-      //   localStorage.highscore = score;
-      // }
-      // highScore.innerText = localStorage.highscore;
+      if (localStorage.highscore == "0") {
+        localStorage.highscore = score;
+      } else if (parseInt(localStorage.highscore) > score) {
+        localStorage.highscore = score;
+      }
+      highScore.innerText = localStorage.highscore;
       gameOver = true;
       endGame();
     }
