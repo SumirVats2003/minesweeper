@@ -9,9 +9,9 @@ let intervalId;
 let count = new Array(rows).fill(null).map(() => new Array(cols).fill(0));
 let highScore = document.querySelector("#hiscore");
 let score;
+let clickCount = 0;
 
-// // set highscore initially
-// localStorage.setItem("highscore", highScore.innerText);
+// set highscore initially
 if (!Object.hasOwn(localStorage, "highscore")) {
   localStorage.setItem("highscore", 0);
 }
@@ -88,43 +88,48 @@ const renderBoard = (container, board) => {
 };
 
 const handleCellClick = (event) => {
-  if (!gameOver) {
-    if (!gameStarted) {
-      startGame();
-      gameStarted = true;
-    }
-    const row = parseInt(event.target.dataset.row);
-    const col = parseInt(event.target.dataset.col);
+  const row = parseInt(event.target.dataset.row);
+  const col = parseInt(event.target.dataset.col);
 
-    let displayText;
-    if (board[row][col]) {
-      displayText = "💣";
+  let displayText;
+  if (board[row][col]) {
+    displayText = "💣";
+  } else {
+    if (count[row][col]) {
+      displayText = count[row][col];
     } else {
-      if (count[row][col]) {
-        displayText = count[row][col];
-      } else {
-        displayText = "";
-      }
+      displayText = "";
     }
+  }
 
-    event.target.innerText = `${displayText}`;
-    event.target.style.backgroundColor = "#fff";
-
-    if (board[row][col]) {
-      score = parseInt(document.querySelector("#time").innerText);
-      if (localStorage.highscore == "0") {
-        localStorage.highscore = score;
-      } else if (parseInt(localStorage.highscore) > score) {
-        localStorage.highscore = score;
+  event.target.innerText = `${displayText}`;
+  event.target.style.backgroundColor = "#fff";
+  if (clickCount == rows * cols - mines) {
+    score = parseInt(document.querySelector("#time").innerText);
+    if (localStorage.highscore == "0") {
+      localStorage.highscore = score;
+    } else if (parseInt(localStorage.highscore) > score) {
+      localStorage.highscore = score;
+    }
+    highScore.innerText = localStorage.highscore;
+    endGame("You win");
+  } else {
+    clickCount += 1;
+    if (!gameOver) {
+      if (!gameStarted) {
+        startGame();
+        gameStarted = true;
       }
-      highScore.innerText = localStorage.highscore;
-      gameOver = true;
-      endGame();
+
+      if (board[row][col]) {
+        gameOver = true;
+        endGame("Game Ended");
+      }
     }
   }
 };
 
-const endGame = () => {
+const endGame = (message) => {
   clearInterval(intervalId);
-  alert("Game ended");
+  alert(message);
 };
